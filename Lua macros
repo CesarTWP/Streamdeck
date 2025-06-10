@@ -1,0 +1,58 @@
+-- Assign the name of the external keyboard 
+lmc_device_set_name("NUMPAD", "\\\\?\\HID#VID_13BA&PID_0001#7&243460FE&0&0000#{884B96C3-56EF-11D1-BC8C-00A0C91405DD}")
+
+local obsMuted = false
+local discordMuted = false
+local discordDeafened = false
+
+lmc_set_handler("NUMPAD", function(keycode, direction)
+  if direction == 1 then return end
+
+  if keycode == 13 then
+    lmc_send_keys("{F13}")
+
+  elseif keycode == 97 then   -- Numpad1 → OBS mute toggle
+    lmc_send_keys("{F14}")
+    obsMuted = not obsMuted
+    if obsMuted then
+      lmc_say("OBS silenciado")
+    else
+      lmc_say("OBS abierto")
+    end
+
+  elseif keycode == 98 then   -- Numpad2 → Discord mute mic
+    lmc_send_keys("^+m")  -- Ctrl + Shift + M
+    discordMuted = not discordMuted
+    if discordMuted then
+      lmc_say("Micrófono silenciado")
+    else
+      lmc_say("Micrófono activo")
+    end
+
+  elseif keycode == 99 then   -- Numpad3 → Discord deafen
+    lmc_send_keys("^+d")  -- Ctrl + Shift + D
+    discordDeafened = not discordDeafened
+    if discordDeafened then
+      lmc_say("Ensordecido en Discord")
+    else
+      lmc_say("Audio de Discord activo")
+    end
+
+  elseif keycode == 101 then
+    lmc_send_keys("{F17}")
+  elseif keycode == 102 then
+    lmc_send_keys("{F18}")
+  elseif keycode == 104 then
+    lmc_send_keys("{F19}")
+  elseif keycode == 105 then
+    lmc_send_keys("{F20}")
+  elseif keycode == 107 then
+    lmc_send_keys("{F21}")
+  elseif keycode == 103 then
+    lmc_send_keys("{F22}")
+  elseif keycode == 96 then
+    lmc_send_keys("{F23}")
+  else
+    print("Tecla no asignada:", keycode)
+  end
+end)           
